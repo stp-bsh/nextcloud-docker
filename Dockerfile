@@ -1,6 +1,11 @@
 FROM ubuntu:latest
 ENV NEXTCLOUD_VERSION "12.0.4"
 ENV NEXTCLOUD_URL "https://download.nextcloud.com/server/releases"
+ENV NEXTCLOUD_DB "TODOi!!"
+ENV NEXTCLOUD_DB_USR "TODO!!"
+ENV NEXTCLOUD_DB_PW "TODO!!"
+ENV NEXTCLOUD_DB_HOST "TODO!!"
+ENV NEXTCLOUD_TRUSTED_DOMAINS "TODO!!"
 
 RUN apt-get update \
  && apt-get install -y  apache2 php7.0 wget zip vim libapache2-mod-php7.0
