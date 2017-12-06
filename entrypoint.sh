@@ -1,4 +1,6 @@
 #! /bin/bash
+# TODO: add the nextcloud config.php and do the
+#       replace for all important parameters
 CMD="run"
 if [ -z $1 ]
 then
