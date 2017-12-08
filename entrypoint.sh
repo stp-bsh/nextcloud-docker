@@ -1,7 +1,6 @@
 #! /bin/bash
 # TODO: add the nextcloud config.php and do the
-#       replace for all important parameters
-CMD="run"
+#       replace for all important parameters"
 if [ -z $1 ]
 then
  CMD="apachectl -D FOREGROUND"
