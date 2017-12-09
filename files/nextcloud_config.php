@@ -23,7 +23,7 @@ $CONFIG = array (
   array (
     0 => 'cloud-dev.seibolds.net',
   ),
-  'datadirectory' => '/app/www/data',
+  'datadirectory' => '/app/DATA',
   'overwrite.cli.url' => 'https://cloud-dev.seibolds.net',
   'dbtype' => 'mysql',
   'version' => '12.0.0.29',
@@ -34,7 +34,7 @@ $CONFIG = array (
   'mysql.utf8mb4' => true,
   'dbuser' => 'nextcloud',
   'dbpassword' => 'nextcloud',
-  'installed' => false,
+  'installed' => true,
   'mail_from_address' => 'sebastian',
   'mail_smtpmode' => 'php',
   'mail_smtpauthtype' => 'LOGIN',
