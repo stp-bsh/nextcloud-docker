@@ -28,8 +28,6 @@ RUN apt-get update \
      php7.0-cURL \
  && service apache2 stop
 
-RUN apt-get install -y mysql-client vim curl telnet
-
 RUN mkdir /app \
  && mkdir /app/www \
  && mkdir /app/www/data \

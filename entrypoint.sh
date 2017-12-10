@@ -1,6 +1,4 @@
 #! /bin/bash
-# TODO: add the nextcloud config.php and do the
-#       replace for all important parameters"
 sleep 10
 if [ -z $1 ]
 then
