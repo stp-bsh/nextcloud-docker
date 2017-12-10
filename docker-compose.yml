@@ -23,7 +23,7 @@ services:
    NEXTCLOUD_DB_USER: nextcloud
    NEXTCLOUD_DB_PASS: nextcloud
    NEXTCLOUD_PUB_PROTO: https
-   NEXTCLOUD_PUB_URL: cloud-dev.seibolds.net
+   NEXTCLOUD_PUB_DOMAIN: cloud-dev.seibolds.net
   ports:
    - 8082:80
  # volumes:

@@ -5,7 +5,8 @@ ENV NEXTCLOUD_DB_NAME "nextcloud"
 ENV NEXTCLOUD_DB_PASS "nextcloud"
 ENV NEXTCLOUD_DB_USER "nextcloud"
 ENV NEXTCLOUD_ADMIN_PASS "nextcloud"
-ENV NEXTCLOUD_PUB_ADDR "https://please.replace.me"
+ENV NEXTCLOUD_PUB_PROTO "https"
+ENV NEXTCLOUD_PUB_DOMAIN "nextcloud.example.com"
 
 RUN apt-get update \
  && apt-get install -y  \
@@ -13,6 +14,7 @@ RUN apt-get update \
      php7.0 \
      wget \
      zip \
+     sudo \
      libapache2-mod-php7.0 \
      php7.0-mysql \
      php7.0-zip \
