@@ -31,7 +31,6 @@ RUN apt-get update \
 RUN apt-get install -y mysql-client vim curl telnet
 
 RUN mkdir /app \
- && mkdir /app/DATA \
  && mkdir /app/www \
  && mkdir /app/www/data \
  && mkdir /app/www/custom_apps 

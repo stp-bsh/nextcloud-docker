@@ -1,9 +1,9 @@
 version: '3'
 
-#volumes:
-# nextcloud-data:
-# nextcloud-config:
-# mysql-data:
+volumes:
+ nextcloud-data:
+ nextcloud-config:
+ mysql-data:
 
 services:
  mysql:
@@ -13,8 +13,8 @@ services:
     MYSQL_PASSWORD: nextcloud
     MYSQL_DATABASE: nextcloud
     MYSQL_USER: nextcloud
- # volumes:
-  # - mysql-data:/var/lib/mysql
+  volumes:
+   - mysql-data:/var/lib/mysql
 
  webapp:
   image: sebseib/nextcloud:latest
@@ -26,9 +26,9 @@ services:
    NEXTCLOUD_PUB_DOMAIN: cloud-dev.seibolds.net
   ports:
    - 8082:80
- # volumes:
- #  - nextcloud-data:/app/www/data/
- #  - nextcloud-config:/app/www/config/
+  volumes:
+   - nextcloud-data:/app/www/data/
+   - nextcloud-config:/app/www/config/
   links:
    - mysql:mysql
   depends_on:
