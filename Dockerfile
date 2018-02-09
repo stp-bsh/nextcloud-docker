@@ -16,6 +16,7 @@ RUN apt-get update \
      zip \
      sudo \
      libapache2-mod-php7.0 \
+     libapache2-mod-headers \
      php7.0-mysql \
      php7.0-zip \
      php7.0-dom \
@@ -26,20 +27,20 @@ RUN apt-get update \
      php7.0-GD \
      php7.0-SimpleXML \
      php7.0-cURL \
- && service apache2 stop
-
-RUN mkdir /app \
+ && a2enmod headers \
+ && service apache2 stop \
+ && mkdir /app \
  && mkdir /app/www \
  && mkdir /app/www/data \
- && mkdir /app/www/custom_apps 
+ && mkdir /app/www_custom_apps
 
 WORKDIR /app
 ADD entrypoint.sh .
+ADD ./files/php.ini /etc/php/7.0/apache2/php.ini
 
 RUN wget $NEXTCLOUD_URL/nextcloud-$NEXTCLOUD_VERSION.zip \
- && unzip nextcloud-$NEXTCLOUD_VERSION.zip
- 
-RUN rm -f nextcloud-$NEXTCLOUD_VERSION.zip \
+ && unzip nextcloud-$NEXTCLOUD_VERSION.zip \
+ && rm -f nextcloud-$NEXTCLOUD_VERSION.zip \
  && mv nextcloud/* www/ \
  && rm -fr nextcloud \
  && chmod 770 ./entrypoint.sh \
