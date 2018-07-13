@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:16.0.4
 ENV NEXTCLOUD_VERSION "13.0.4"
 ENV NEXTCLOUD_URL "https://download.nextcloud.com/server/releases"
 ENV NEXTCLOUD_DB_NAME "nextcloud"
