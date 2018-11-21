@@ -1,5 +1,6 @@
 FROM ubuntu:16.04
-ENV NEXTCLOUD_VERSION "14.0.3"
+ARG NC_VERSION
+ENV NEXTCLOUD_VERSION=$NC_VERSION
 ENV NEXTCLOUD_URL "https://download.nextcloud.com/server/releases"
 ENV NEXTCLOUD_DB_NAME "nextcloud"
 ENV NEXTCLOUD_DB_PASS "nextcloud"
