@@ -41,15 +41,18 @@ def _main():
         v = version.replace('v', '')
         if not (v in nextcloud_versions_own):
             buildq.append(v)
+    
+    if len(buildq) == 0:
+        print("There are no new nextcloud versions to build!")
+    else:
+        print("available nextcloud version on github: " + str(nextcloud_versions_github))
+        print("own nextcloud version available: " + str(nextcloud_versions_own))
+        print("nextcloud versions to build: " + str(buildq))
 
-    print("available nextcloud version on github: " + str(nextcloud_versions_github))
-    print("own nextcloud version available: " + str(nextcloud_versions_own))
-    print("nextcloud versions to build: " + str(buildq))
-
-    for item in buildq:
-        print("===> BUILDING VERSION " + item)
-        subprocess.call(["git", "pull", "origin", "master"])
-        os.system("./build.bash " + item)
+        for item in buildq:
+            print("===> BUILDING VERSION " + item)
+            subprocess.call(["git", "pull", "origin", "master"])
+            os.system("./build.bash " + item)
 
 
 if __name__ == "__main__":
