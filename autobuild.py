@@ -7,8 +7,8 @@ import subprocess
 
 def _parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--beta", default="no")
-    parser.add_argument("--rc", default="no")
+    parser.add_argument("--beta", action="store_true", help="include beta releases")
+    parser.add_argument("--rc", action="store_true", help="include release candidates")
     return parser.parse_args()
 
 
@@ -35,8 +35,8 @@ def _get_github_releases_or_tags(owner, repo, type, beta=False, rc=False):
 
 def _main():
     args = _parse_args()
-    nextcloud_versions_github = _get_github_releases_or_tags("nextcloud", "server", "tags", args.beta == "yes", args.rc == "yes")
-    nextcloud_versions_own = _get_github_releases_or_tags("sebseib", "nextcloud-docker", "tags", args.beta == "yes", args.rc == "yes")
+    nextcloud_versions_github = _get_github_releases_or_tags("nextcloud", "server", "tags", args.beta, args.rc)
+    nextcloud_versions_own = _get_github_releases_or_tags("sebseib", "nextcloud-docker", "tags", args.beta, args.rc)
 
     buildq = []
 
