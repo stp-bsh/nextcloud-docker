@@ -2,13 +2,15 @@ import requests
 import json
 import argparse
 import os
-from subprocess import call
+import subprocess
+
 
 def _parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--beta", action="store_true", help="include beta releases")
-    parser.add_argument("--rc", action="store_true", help="include release canidates")
+    parser.add_argument("--beta", default="no")
+    parser.add_argument("--rc", default="no")
     return parser.parse_args()
+
 
 def _get_github_releases_or_tags(owner, repo, type, beta=False, rc=False):
     github_api = "https://api.github.com/repos/" + owner + "/" + repo + "/" + type;
@@ -16,7 +18,7 @@ def _get_github_releases_or_tags(owner, repo, type, beta=False, rc=False):
     result = []
 
     if not beta:
-       tagfilter.append("beta")
+        tagfilter.append("beta")
     if not rc == "yes":
         tagfilter.append("RC")
 
@@ -30,10 +32,11 @@ def _get_github_releases_or_tags(owner, repo, type, beta=False, rc=False):
 
     return result
 
+
 def _main():
     args = _parse_args()
-    nextcloud_versions_github = _get_github_releases_or_tags("nextcloud", "server", "tags", args.beta, args.rc)
-    nextcloud_versions_own = _get_github_releases_or_tags("sebseib", "nextcloud-docker", "tags", args.beta, args.rc)
+    nextcloud_versions_github = _get_github_releases_or_tags("nextcloud", "server", "tags", args.beta == "yes", args.rc == "yes")
+    nextcloud_versions_own = _get_github_releases_or_tags("sebseib", "nextcloud-docker", "tags", args.beta == "yes", args.rc == "yes")
 
     buildq = []
 
@@ -42,13 +45,17 @@ def _main():
         if not (v in nextcloud_versions_own):
             buildq.append(v)
 
-    print("available nextcloud version on github: " + str(nextcloud_versions_github))
-    print("own nextcloud version available: " + str(nextcloud_versions_own))
-    print("nextcloud versions to build: " + str(buildq))
+    if len(buildq) == 0:
+        print("There are no new nextcloud versions to build!")
+    else:
+        print("available nextcloud version on github: " + str(nextcloud_versions_github))
+        print("own nextcloud version available: " + str(nextcloud_versions_own))
+        print("nextcloud versions to build: " + str(buildq))
 
-    for item in buildq:
-        call(["git", "pull", "origin", "master"])
-        call(["docker", "image", "build", "-t", "sebseib/nextcloud-docker:" + item])
+        for item in buildq:
+            print("===> BUILDING VERSION " + item)
+            subprocess.call(["git", "pull", "origin", "master"])
+            os.system("./build.bash " + item)
 
 
 if __name__ == "__main__":
