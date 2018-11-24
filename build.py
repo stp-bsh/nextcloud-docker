@@ -15,9 +15,9 @@ def _parsargs():
     parser.add_argument("--release", default="latest", help="version to build")
     parser.add_argument("--no_beta", action="store_true", help="do not include beta releases (ignored when specific release is defined)")
     parser.add_argument("--no_rc", action="store_true", help="do not include release candidates (ignored when specific release is defined)")
-    parser.add_argument("--dockeruser", help="username for docker login")
-    parser.add_argument("--dockerpwfile", default=".dockerpw", help="file with docker password")#
-    parser.add_argument("--dockerrepo", help="destination docker repository")
+    parser.add_argument("--dockeruser", help="username for docker login", required=True)
+    parser.add_argument("--dockerpwfile", default=".dockerpw", help="file with docker password")
+    parser.add_argument("--dockerrepo", help="destination docker repository", required=True)
     return parser.parse_args()
 
 
