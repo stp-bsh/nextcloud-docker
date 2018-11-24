@@ -60,7 +60,6 @@ def _get_nextcloud_release(version):
             result[tagname] = {"version": tagname}
             count = count + 1
 
-    print(result)
     if version == "latest":
         return result[latest]
     else:
