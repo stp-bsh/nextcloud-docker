@@ -7,16 +7,16 @@ github_api = "https://api.github.com/repos/"
 download_url = "https://download.nextcloud.com/server/"
 download_stable = "releases"
 download_pre = "prereleases"
-destimg = "sebseib/nextcloud"
-
 
 def _parsargs():
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="check only")
-    parser.add_argument("--release", default="latest")
-    parser.add_argument("--beta", action="store_true")
-    parser.add_argument("--rc", action="store_true")
-    parser.add_argument("--dockerpwfile", default=".dockerpw")
+    parser.add_argument("--release", default="latest", help="version to build")
+    parser.add_argument("--beta", action="store_true", help="also include beta releases")
+    parser.add_argument("--rc", action="store_true", help="also include release candidates")
+    parser.add_argument("--dockeruser", help="username for docker login")
+    parser.add_argument("--dockerpwfile", default=".dockerpw", help="file with docker password")#
+    parser.add_argument("--dockerrepo", help="destination docker repository")
     return parser.parse_args()
 
 args = _parsargs()
@@ -73,6 +73,7 @@ def _build_docker_image(release):
     print("BUILDING: " + str(release))
     ncurl = download_url
     dockerpw = _read_dockerpw()
+    dockerrepo = args.dockerrepo
     if ("beta" in release["version"]) or ("RC" in release["version"]):
         ncurl += download_pre
     else:
@@ -82,8 +83,9 @@ def _build_docker_image(release):
     print("download url is '" + ncurl + "'")
 
     if not args.check:
-        os.system("docker image build --build-arg NC_ARCHIVE=" + ncurl + "-t sebseib/nextcloud:" + release["version"] + " .")
-        os.system("echo " + dockerpw + " | docker image push " + destimg + ":" + release["version"])
+        os.system("docker image build --build-arg NC_ARCHIVE=" + ncurl + "-t " + dockerrepo + ":" + release["version"] + " .")
+        os.system("echo " + dockerpw + " | docker login --username " + args.dockeruser + " --password-stdin")
+        os.system("docker image push " + dockerrepo + ":" + release["version"])
 
 
 def _main():
