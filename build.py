@@ -8,23 +8,19 @@ download_url = "https://download.nextcloud.com/server/"
 download_stable = "releases"
 download_pre = "prereleases"
 
+
 def _parsargs():
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="check only")
     parser.add_argument("--release", default="latest", help="version to build")
-    parser.add_argument("--beta", action="store_true", help="also include beta releases")
-    parser.add_argument("--rc", action="store_true", help="also include release candidates")
+    parser.add_argument("--beta", action="store_true", help="also include beta releases (ignored when specific release is defined)")
+    parser.add_argument("--rc", action="store_true", help="also include release candidates (ignored when specific release is defined)")
     parser.add_argument("--dockeruser", help="username for docker login")
     parser.add_argument("--dockerpwfile", default=".dockerpw", help="file with docker password")#
     parser.add_argument("--dockerrepo", help="destination docker repository")
     return parser.parse_args()
 
 args = _parsargs()
-
-
-def _read_dockerpw():
-    with open(args.dockerpwfile) as file:
-        return file.read()
 
 
 def _webrequest(url):
@@ -47,7 +43,7 @@ def _get_nextcloud_release(version):
     latest = None
 
     # always include betas & RC when release version is specified
-    if args.release == "latest":
+    if version == "latest":
         if not args.beta:
             tagfilter.append("beta")
         if not args.rc:
@@ -72,7 +68,6 @@ def _get_nextcloud_release(version):
 def _build_docker_image(release):
     print("BUILDING: " + str(release))
     ncurl = download_url
-    dockerpw = _read_dockerpw()
     dockerrepo = args.dockerrepo
     if ("beta" in release["version"]) or ("RC" in release["version"]):
         ncurl += download_pre
@@ -83,8 +78,8 @@ def _build_docker_image(release):
     print("download url is '" + ncurl + "'")
 
     if not args.check:
-        os.system("docker image build --build-arg NC_ARCHIVE=" + ncurl + "-t " + dockerrepo + ":" + release["version"] + " .")
-        os.system("echo " + dockerpw + " | docker login --username " + args.dockeruser + " --password-stdin")
+        os.system("docker image build --build-arg NC_ARCHIVE=" + ncurl + " -t " + dockerrepo + ":" + release["version"] + " .")
+        os.system("cat " + args.dockerpwfile + " | docker login --username " + args.dockeruser + " --password-stdin")
         os.system("docker image push " + dockerrepo + ":" + release["version"])
 
 
