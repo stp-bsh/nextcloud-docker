@@ -13,8 +13,8 @@ def _parsargs():
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="check only")
     parser.add_argument("--release", default="latest", help="version to build")
-    parser.add_argument("--beta", action="store_true", help="also include beta releases (ignored when specific release is defined)")
-    parser.add_argument("--rc", action="store_true", help="also include release candidates (ignored when specific release is defined)")
+    parser.add_argument("--no_beta", action="store_true", help="do not include beta releases (ignored when specific release is defined)")
+    parser.add_argument("--no_rc", action="store_true", help="do not include release candidates (ignored when specific release is defined)")
     parser.add_argument("--dockeruser", help="username for docker login")
     parser.add_argument("--dockerpwfile", default=".dockerpw", help="file with docker password")#
     parser.add_argument("--dockerrepo", help="destination docker repository")
@@ -44,9 +44,9 @@ def _get_nextcloud_release(version):
 
     # always include betas & RC when release version is specified
     if version == "latest":
-        if not args.beta:
+        if args.no_beta:
             tagfilter.append("beta")
-        if not args.rc:
+        if args.no_rc:
             tagfilter.append("RC")
 
     jsn = json.loads(resp.text)
@@ -56,7 +56,7 @@ def _get_nextcloud_release(version):
         if tagname and (not any(flt in tagname for flt in tagfilter)):
             if count == 0:
                 latest = tagname
-            result[tagname] = {"version": tagname }
+            result[tagname] = {"version": tagname}
             count = count + 1
 
     if version == "latest":
