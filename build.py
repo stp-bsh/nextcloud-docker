@@ -20,6 +20,7 @@ def _parsargs():
     parser.add_argument("--dockerrepo", help="destination docker repository")
     return parser.parse_args()
 
+
 args = _parsargs()
 
 
@@ -36,7 +37,7 @@ def _get_nextcloud_release(version):
     url = github_api + "nextcloud/server/tags"
     resp = _webrequest(url)
 
-    if resp == None:
+    if resp is None:
         return {}
 
     result = {}
@@ -59,6 +60,7 @@ def _get_nextcloud_release(version):
             result[tagname] = {"version": tagname}
             count = count + 1
 
+    print(result)
     if version == "latest":
         return result[latest]
     else:
