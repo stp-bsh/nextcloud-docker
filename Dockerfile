@@ -1,4 +1,5 @@
 FROM ubuntu:16.04
+ARG NC_ARCHIVE
 ENV NEXTCLOUD_DB_NAME "nextcloud"
 ENV NEXTCLOUD_DB_PASS "nextcloud"
 ENV NEXTCLOUD_DB_USER "nextcloud"
@@ -32,7 +33,7 @@ RUN apt-get update \
  && mkdir /app/www/custom_apps
 
 WORKDIR /app
-ADD ./nextcloud.zip ./nextcloud.zip
+ADD $NC_ARCHIVE ./nextcloud.zip
 ADD entrypoint.sh .
 ADD ./files/php.ini /etc/php/7.0/apache2/php.ini
 
