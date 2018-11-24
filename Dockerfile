@@ -1,7 +1,4 @@
 FROM ubuntu:16.04
-ARG NC_VERSION
-ENV NEXTCLOUD_VERSION=$NC_VERSION
-ENV NEXTCLOUD_URL "https://download.nextcloud.com/server/releases"
 ENV NEXTCLOUD_DB_NAME "nextcloud"
 ENV NEXTCLOUD_DB_PASS "nextcloud"
 ENV NEXTCLOUD_DB_USER "nextcloud"
@@ -35,12 +32,12 @@ RUN apt-get update \
  && mkdir /app/www/custom_apps
 
 WORKDIR /app
+ADD ./nextcloud.zip ./nextcloud.zip
 ADD entrypoint.sh .
 ADD ./files/php.ini /etc/php/7.0/apache2/php.ini
 
-RUN wget $NEXTCLOUD_URL/nextcloud-$NEXTCLOUD_VERSION.zip \
- && unzip nextcloud-$NEXTCLOUD_VERSION.zip \
- && rm -f nextcloud-$NEXTCLOUD_VERSION.zip \
+RUN unzip nextcloud.zip \
+ && rm -f nextcloud.zip \
  && cp nextcloud/.htaccess /app/www/.htaccess \
  && cp nextcloud/.user.ini /app/www/.user.ini \
  && mv nextcloud/* www/ \
