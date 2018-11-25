@@ -19,6 +19,7 @@ def _parsargs():
     parser.add_argument("--dockeruser", help="username for docker login", required=True)
     parser.add_argument("--dockerpwfile", default=".dockerpw", help="file with docker password")
     parser.add_argument("--dockerrepo", help="destination docker repository", required=True)
+    parser.add_argument("--maxattempts", help="max. attempts to build and push the image", default=1)
     return parser.parse_args()
 
 
@@ -101,13 +102,16 @@ def _main():
     rel = _get_nextcloud_release(args.release)
 
     if len(rel):
-        for n in range(1, 3):
+        cnt = 0
+        for n in range(0, int(args.maxattempts)):
+            print("build attempt: " + str(cnt+1) + "/" + str(args.maxattempts))
             available = _check_dockerhub_tag(args.dockeruser, args.dockerrepo.replace(args.dockeruser + '/', ''), rel["version"])
             if available:
                 print("target tag " + rel["version"] + " is available on docker hub -> finished.")
                 break
             else:
                 _build_docker_image(rel)
+        cnt = cnt +1
 
 
 if __name__ == "__main__":
