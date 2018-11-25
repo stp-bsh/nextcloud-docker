@@ -102,7 +102,7 @@ def _main():
 
     if len(rel):
         for n in range(1, 3):
-            available = _check_dockerhub_tag("sebseib", "nextcloud", rel["version"])
+            available = _check_dockerhub_tag(args.dockeruser, args.dockerrepo.replace(args.dockeruser + '/', ''), rel["version"])
             if available:
                 print("target tag " + rel["version"] + " is available on docker hub -> finished.")
                 break
