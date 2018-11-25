@@ -111,7 +111,7 @@ def _main():
                 break
             else:
                 _build_docker_image(rel)
-        cnt = cnt +1
+            cnt = cnt + 1
 
 
 if __name__ == "__main__":
