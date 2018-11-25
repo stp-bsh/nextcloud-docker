@@ -7,6 +7,7 @@ github_api = "https://api.github.com/repos/"
 download_url = "https://download.nextcloud.com/server/"
 download_stable = "releases"
 download_pre = "prereleases"
+dockerhub_api = "https://hub.docker.com/v2/"
 
 
 def _parsargs():
@@ -30,6 +31,14 @@ def _webrequest(url):
         print(resp.text)
         return None
     return requests.get(url)
+
+
+def _check_dockerhub_tag(owner, repo, tag):
+    resp = requests.get(dockerhub_api + "repositories/" + owner + "/" + repo + "/tags/" + tag)
+    if resp.status_code == 200:
+        return True
+    else:
+        return False
 
 
 def _get_nextcloud_release(version):
@@ -81,19 +90,24 @@ def _build_docker_image(release):
     if not args.check:
         os.system("docker image build --build-arg NC_ARCHIVE=" + ncurl + " -t " + dockerrepo + ":" + release["version"] + " .")
         os.system("cat " + args.dockerpwfile + " | docker login --username " + args.dockeruser + " --password-stdin")
-        # HOTFIX: push multiple times
-        for n in range(0, 3):
-            os.system("docker image push " + dockerrepo + ":" + release["version"])
+        os.system("docker image push " + dockerrepo + ":" + release["version"])
 
 
 def _main():
+
     if args.check:
         print("Running in CHECK mode!")
 
     rel = _get_nextcloud_release(args.release)
 
     if len(rel):
-        _build_docker_image(rel)
+        for n in range(1, 3):
+            available = _check_dockerhub_tag("sebseib", "nextcloud", rel["version"])
+            if available:
+                print("target tag " + rel["version"] + " is available on docker hub -> finished.")
+                break
+            else:
+                _build_docker_image(rel)
 
 
 if __name__ == "__main__":
