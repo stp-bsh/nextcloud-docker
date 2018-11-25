@@ -81,7 +81,9 @@ def _build_docker_image(release):
     if not args.check:
         os.system("docker image build --build-arg NC_ARCHIVE=" + ncurl + " -t " + dockerrepo + ":" + release["version"] + " .")
         os.system("cat " + args.dockerpwfile + " | docker login --username " + args.dockeruser + " --password-stdin")
-        os.system("docker image push " + dockerrepo + ":" + release["version"])
+        # HOTFIX: push multiple times
+        for n in range(0, 3):
+            os.system("docker image push " + dockerrepo + ":" + release["version"])
 
 
 def _main():
