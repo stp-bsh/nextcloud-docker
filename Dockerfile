@@ -6,6 +6,7 @@ ENV NEXTCLOUD_DB_USER "nextcloud"
 ENV NEXTCLOUD_ADMIN_PASS "nextcloud"
 ENV NEXTCLOUD_PUB_PROTO "https"
 ENV NEXTCLOUD_PUB_DOMAIN "nextcloud.example.com"
+MAINTAINER sebastianseibold@gmail.com
 
 RUN apt-get update \
  && apt-get install -y  \
