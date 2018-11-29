@@ -22,3 +22,7 @@ optional arguments:
   --maxattempts MAXATTEMPTS
                         max. attempts to build and push the image
 ~~~~
+### example: build latest release without release candidates
+~~~~ 
+python3 build.py --release "latest" --no_rc --dockeruser user1 --dockerpwfile .pwfile --dockerrepo "user1/nextcloud" 
+~~~~
