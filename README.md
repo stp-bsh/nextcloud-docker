@@ -24,5 +24,10 @@ optional arguments:
 ~~~~
 ### example: build latest release without release candidates
 ~~~~ 
-python3 build.py --release "latest" --no_rc --dockeruser user1 --dockerpwfile .pwfile --dockerrepo "user1/nextcloud" 
+python3 build.py --release "latest" --no_rc --dockeruser sebseib --dockerpwfile .pwfile --dockerrepo "sebseib/nextcloud" 
+~~~~
+
+### example: build specific release
+~~~~ 
+python3 build.py --release "15.0.0beta1" --dockeruser sebseib --dockerpwfile .pwfile --dockerrepo "sebseib/nextcloud" 
 ~~~~
