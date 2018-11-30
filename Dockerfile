@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-ARG NC_ARCHIVE
+ARG NC_ARCHIVE=https://download.nextcloud.com/server/releases/latest.zip
 ENV NEXTCLOUD_DB_NAME "nextcloud"
 ENV NEXTCLOUD_DB_PASS "nextcloud"
 ENV NEXTCLOUD_DB_USER "nextcloud"
