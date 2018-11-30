@@ -1,5 +1,10 @@
 # nextcloud-docker
 ## Dockerfile
+### Build this image
+~~~~ 
+docker image build --build-arg "NC_ARCHIVE=https://download.nextcloud.com/server/releases/latest.zip" -t me/myrepo:mytag .
+~~~~
+
 ### Build arguments
 | environment | description | default |
 |---|---|---|
