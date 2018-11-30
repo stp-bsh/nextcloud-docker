@@ -25,7 +25,6 @@ def _parsargs():
 
 args = _parsargs()
 
-
 def _webrequest(url):
     resp = requests.get(url)
     if not resp.status_code == 200:
@@ -105,7 +104,6 @@ def _main():
     if len(rel):
         cnt = 0
         for n in range(0, int(args.maxattempts)):
-            print("build attempt: " + str(cnt+1) + "/" + str(args.maxattempts))
             available = _check_dockerhub_tag(args.dockeruser, args.dockerrepo.replace(args.dockeruser + '/', ''), rel["version"])
 
             if available:
@@ -113,6 +111,7 @@ def _main():
                 break
             else:
                 newrel = True
+                print("build attempt: " + str(cnt + 1) + "/" + str(args.maxattempts))
                 _build_docker_image(rel)
             cnt = cnt + 1
 
