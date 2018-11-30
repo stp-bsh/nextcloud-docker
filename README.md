@@ -1,14 +1,17 @@
 # nextcloud-docker
 ## Dockerfile
+
 ### Build this image
 ~~~~ 
 docker image build --build-arg "NC_ARCHIVE=https://download.nextcloud.com/server/releases/latest.zip" -t me/myrepo:mytag .
 ~~~~
 
+
 ### Build arguments
 | environment | description | default |
 |---|---|---|
 | NC_ARCHIVE | full URL to download the nextcloud archive | https://download.nextcloud.com/server/releases/latest.zip |
+
 
 ### Environments
 | environment | description | default |
@@ -44,10 +47,13 @@ optional arguments:
   --maxattempts MAXATTEMPTS
                         max. attempts to build and push the image
 ~~~~
+
+
 ### example: build latest release without release candidates
 ~~~~ 
 python3 build.py --release "latest" --no_rc --dockeruser sebseib --dockerpwfile .pwfile --dockerrepo "sebseib/nextcloud" 
 ~~~~
+
 
 ### example: build specific release
 ~~~~ 
