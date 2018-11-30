@@ -27,7 +27,7 @@ services:
    NEXTCLOUD_PUB_PROTO: https
    NEXTCLOUD_PUB_DOMAIN: nextcloud.example.com
   ports:
-   - 80:80
+   - 8082:80
   volumes:
    - nextcloud-data:/app/www/data/
    - nextcloud-config:/app/www/config/
