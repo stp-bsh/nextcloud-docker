@@ -107,12 +107,12 @@ def _main():
         for n in range(0, int(args.maxattempts)):
             print("build attempt: " + str(cnt+1) + "/" + str(args.maxattempts))
             available = _check_dockerhub_tag(args.dockeruser, args.dockerrepo.replace(args.dockeruser + '/', ''), rel["version"])
-            if not available:
-                newrel = True
+
             if available:
                 print("target tag " + rel["version"] + " is available on docker hub -> finished.")
                 break
             else:
+                newrel = True
                 _build_docker_image(rel)
             cnt = cnt + 1
 
