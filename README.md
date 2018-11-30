@@ -1,5 +1,22 @@
 # nextcloud-docker
-## build.py:
+## Dockerfile
+### Build arguments
+| environment | description | default |
+|---|---|---|
+| NC_ARCHIVE | full URL to download the nextcloud archive | https://download.nextcloud.com/server/releases/latest.zip |
+
+### Environments
+| environment | description | default |
+|---|---|---|
+| NEXTCLOUD_DB_NAME | Name of the nextcloud mysql instance | nextcloud |
+| NEXTCLOUD_DB_USER | Name of the nextcloud mysql user | nextcloud |
+| NEXTCLOUD_DB_PASS | Password for the nextcloud mysql user | nextcloud |
+| NEXTCLOUD_ADMIN_PASS | Initial password for the nextcloud admin user | nextcloud |
+| NEXTCLOUD_PUB_PROTO | Protocol used to access the nextcloud instance in public (http/https) | https |
+| NEXTCLOUD_PUB_DOMAIN | URL used to access the nextcloud instance in public | nextcloud.example.com |
+
+
+## Automated build (build.py):
 ~~~~
 usage: build.py [-h] [--check] [--release RELEASE] [--no_beta] [--no_rc]
                 --dockeruser DOCKERUSER [--dockerpwfile DOCKERPWFILE]
